@@ -1,0 +1,21 @@
+--- # handlers........
+
+- hosts: demo
+  user: ansible
+  become: yes
+  connection: ssh
+
+  vars:
+    
+    pkgname: httpd
+
+  tasks:
+
+    - name: Installing {{pkgname}} on nodes...
+      action: yum name='{{pkgname}}' state=present
+      notify: restarting httpd...
+
+  handlers:
+    - name: restarting httpd...
+      action: service name={{pkgname}} state=restarted
+
